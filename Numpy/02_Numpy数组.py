@@ -17,8 +17,11 @@ a = [1,2,3,4.0]
 # 1.通过python列表生成数组
 a1 = np.array(a)
 
-# 2.通过np.arange生成数组（用法和python的range类似）
+# 2.从头开始创建数组
+# 通过np.arange生成数组（用法和python的range类似）
 a2 = np.arange(2,10,2)
+#通过np.linspace生成数组
+a3 = np.linspace(0,1,6)
 
 # 3.通过np.random生成随机数的数组
 a3 = np.random.random()  #返回一个0-1的数
@@ -30,6 +33,7 @@ a4_z = np.zeros((3,3))  #返回一个元素全为0的3行3列的数组
 a4_o = np.ones((4,4))   #返回一个元素全为1的4行4列的数组
 a4_f = np.full((3,3),8)  #返回一个元素全为8的3行3列的数组
 a4_e = np.eye(4)    #返回一个4行4列的单位矩阵
+a4_em = np.empty((3,3))  #返回一个3行3列的数组，数组元素内容初始化为随机值，取决于内存的状态
 
 
 # 总结
@@ -65,10 +69,10 @@ print(a3)
 print(a3.dtype)
 
 # 多维数组
-# 1.获取数组的维数np.ndim
+# 1.数组的维数np.ndim
 a1 = np.array([1,2,3])
 print(a1.ndim)  #一维数组
-a2 = np.array([1,2,3],[4,5,6])
+a2 = np.array([[1,2,3],[4,5,6]])
 print(a2.ndim)
 a3 = np.array(
     [
@@ -83,3 +87,25 @@ a3 = np.array(
 )
 print(a3)
 print(a3.ndim)
+
+a4 = np.array([[1,2,3],[4,5]])
+print(a4)  # 输出[list([1, 2, 3]) list([4, 5])]，其中最外面层是数组，里面是Python列表
+print(a4.ndim)  # 输出1，表明a4是一个一维数组
+
+# 2.数组的形状np.shape
+print(a1.shape) # 输出(3,)，意思是一维数组，有3个数据
+print(a2.shape) # 输出(2,3)，意思是二维数组，2行3列
+print(a3.shape) # 输出(2,2,3)，意思是三维数组，总共有2个元素，每个元素是2行3列的
+print(a4.shape) # 输出(2,)，意思是a4是一个一维数组，总共有2列
+
+# 3.数组的个数
+a1 = np.array([[1,2,3],[4,5,6]])
+print(a1.size) #打印的是6，因为总共有6个元素
+
+# 4.数组每个元素占的大小
+a1 = np.array([1,2,3],dtype=np.int32)
+print(a1.itemsize) # 打印4，因为每个字节是8位，32位/8=4个字节
+
+# 5.数组元素消耗的总字节数
+a1 = np.array([1, 2, 3], dtype=np.int32)
+print(a1.nbytes)  # 打印12，因为总共有3个元素。每个元素占4个字节
