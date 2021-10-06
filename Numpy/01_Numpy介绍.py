@@ -18,8 +18,10 @@ a = []
 for x in range(1000000):
     a.append(x**2)
 t2 = time.time()
+print(t2-t1)
 
 # Numpy数组
 t3 = time.time()
-b = np.arange(1000000)**2
+b = np.arange(1000000,dtype='i8')**2
 t4 = time.time()
+print(t4-t3)

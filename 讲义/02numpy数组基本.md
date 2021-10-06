@@ -62,7 +62,15 @@
 
 5. 从文件中获取对应的数组
 
-   比如可以使用
+   比如可以利用matplotlib的imread获取图像，生成一个三维数组(M,N,RGB)，该三维数组分别对应图片的高、宽、RGB值
+   
+   ```python
+   import matplotlib.pyplot as plt  #需要导入matplotlib库
+   img_path = "Numpy/res/guido.jpg"  #图片所在路径
+   a5_img = plt.imread(img_path)   #通过imread方法获取图片，生成一个图片三维数组
+   ```
+   
+   ![img](https://i.loli.net/2021/10/06/rwYU9eQoVfNx7dj.png)
 
 ## 数据类型
 
