@@ -9,6 +9,7 @@ Create Date: 2021-10-4
 -------------------------------------------------
 """
 import numpy as np
+import matplotlib.pyplot as plt
 
 a = [1,2,3,'4']
 a = [1,2,3,4.0]
@@ -118,3 +119,4 @@ print(a1.itemsize) # 打印4，因为每个字节是8位，32位/8=4个字节
 # 5.数组元素消耗的总字节数
 a1 = np.array([1, 2, 3], dtype=np.int32)
 print(a1.nbytes)  # 打印12，因为总共有3个元素。每个元素占4个字节
+
