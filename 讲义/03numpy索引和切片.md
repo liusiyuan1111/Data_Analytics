@@ -54,6 +54,58 @@
     print(a1[:,1]) #获取第1列的数据
    ```
 
+## 案例：通过数组切片处理图像
+
+学习基础知识总是比较枯燥且没有成就感的，所以我们还是来个案例为大家演示下上面学习的数组索引和切片操作到底有什么用。前面我们说到过，可以用三维数组来表示图像，那么通过图像对应的三维数组进行操作，就可以实现对图像的处理，如下所示。
+
+读入图片创建三维数组对象
+
+```python
+import matplotlib.pyplot as plt  #需要导入matplotlib库
+img_path = "Numpy/res/guido.jpg"  #图片所在路径
+guido_img = plt.imread(img_path)   #通过imread方法获取图片，生成一个图片三维数组
+plt.imshow(guido_img)  #显示图像
+plt.show()  #显示在窗口
+```
+
+![image-20211006172837122](https://i.loli.net/2021/10/06/iefGyXE8Dlzn9gt.png)
+
+把Guido的头切出来
+
+```python
+plt.imshow(guido_img[20:450,100:400])
+plt.show()
+```
+
+![image-20211006172846443](https://i.loli.net/2021/10/06/8IuTnLXFoAsptPc.png)
+
+将图像进行垂直翻转，实际上就是对数组的"行"进行反向切片
+
+```python
+plt.imshow(guido_img[::-1])
+plt.show()
+```
+
+![image-20211006173121373](https://i.loli.net/2021/10/06/8ed9mGX4lJZ5WDC.png)
+
+将图像进行水平翻转，实际上就是对数组的"列"进行反向切片
+
+```python
+plt.imshow(guido_img[:,::-1])
+plt.show()
+```
+
+![image-20211006173131949](https://i.loli.net/2021/10/06/TIPHwthqbSr2vfE.png)
+
+将图像进行反色处理，实际上就是将原图像RGB通道改为BGR通道
+
+```python
+plt.imshow(guido_img[:,:,::-1])
+plt.show()
+```
+
+![image-20211006173424627](https://i.loli.net/2021/10/06/MugBb82amj1OTst.png)
+
 ## 小结
 
 1. 如果数组是一维的，那么索引和切片与python的列表一致
