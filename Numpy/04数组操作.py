@@ -35,6 +35,13 @@ a1 = np.random.randint(0,24,size=(3,8))
 a2 = np.random.randint(1,10,size=(1,8))
 print(a1+a2)
 
+# 总结
+'''
+1.数组和数可以直接运算
+2.相同结构的数组也可以直接运算
+3.不同结构的数组可以进行运算，但要符合广播原则
+'''
+
 # 三、数组的形状
 # 1.reshape:将数组转换成指定形状，原数组不会发生改变(行和列的乘积要相等）
 a1 = np.random.randint(0,24,size=(3,8))
@@ -97,6 +104,14 @@ a3 = a1.transpose()  #转置函数
 a1 = np.random.randint(0,24,size=(2,4))
 a2 = a1.T
 a1.dot(a2)
+
+# 总结：
+'''
+1.数组形状改变：reshape和resize重新定义形状，flatten和revel将多维数组转换成一维数组
+2.数组的叠加：hstack水平叠加，vstack垂直叠加，concatenate指定叠加方式
+3.数组的切割：hsplit水平切割，vsplit垂直切割，split指定切割
+4.数组的转置：ndarray.T转置，transpose()函数转置
+'''
 
 # 七、深拷贝和浅拷贝
 # 1.不拷贝

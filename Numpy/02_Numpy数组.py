@@ -9,7 +9,6 @@ Create Date: 2021-10-4
 -------------------------------------------------
 """
 import numpy as np
-import matplotlib.pyplot as plt
 
 a = [1,2,3,'4']
 a = [1,2,3,4.0]
@@ -126,3 +125,9 @@ print(a1.itemsize) # 打印4，因为每个字节是8位，32位/8=4个字节
 a1 = np.array([1, 2, 3], dtype=np.int32)
 print(a1.nbytes)  # 打印12，因为总共有3个元素。每个元素占4个字节
 
+# 总结
+'''
+1.Numpy底层基于C语言，所以直接引用了C语言的数据类型，针对不同数据给不同的数据类型，可以节省空间，提高运行速度
+2.可以通过dtype查看数组的数据类型，通过astype修改数据类型
+3.数组的属性：ndim维度，shape形状，size个数，itemsize每个元素的大小，nbytes总字节数
+'''
