@@ -61,3 +61,31 @@ result3 = np.random.choice(10,3) #从0-10之间随机取3个值
 #5.random.shuffle
 a = np.arange(10)
 np.random.shuffle(a) #将a的元素的位置都会进行随机更换
+
+# Axis
+#1.求和
+x = np.array([[0,1],[2,3]])
+x.sum(axis=0)    #最外面括号里对应位置的元素相加
+x.sum(axis=1)    #第二个括号里对应位置的元素相加
+
+#2.最大值
+np.random.seed(100)
+x = np.random.randint(0,10,size=(3,5))
+x.max(axis=0)   #最外面括号里找子元素的最大值
+x.max(axis=1)   #第二个括号里找子元素的最大值
+
+#3.三维以上的数组
+x = np.array(
+    [
+        [
+            [0,1,2],[3,4,5]
+        ],
+        [
+            [6,7,8],[9,10,11]
+        ]
+    ]
+)
+
+x.sum(axis=0)
+x.sum(axis=1)
+x.sum(axis=2)
