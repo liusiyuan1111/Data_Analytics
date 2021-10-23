@@ -43,7 +43,7 @@ data1 = np.delete(data,lines,axis=0)
 
 3.替换NAN值：
 
-可以通过不二索引将NAN值替换，一般根据需要替换成0或者平均值
+可以通过布尔索引将NAN值替换，一般根据需要替换成0或者平均值
 
 ```python
 data = np.random.randint(0,10,size=(3,5)).astype(float)
@@ -170,23 +170,6 @@ x = np.array([[0,1],[2,3]])
  >>> x.max(axis=1)
  array([8, 5, 8])
  ```
-
-3. 用`np.delete`在`axis=0`和`axis=1`两种情况下删除元素：
-
-   ```python
-    >>> np.delete(x,0,axis=0)
-    array([[2, 3]])
-   ```
-
-   `np.delete`是个例外。我们按照`axis=0`的方式进行删除，那么他会首先找到最外面的括号下的直接子元素中的第0个，然后删掉，剩下最后一行的数据。
-
-   ```python
-    >>> np.delete(x,0,axis=1)
-    array([[1],
-           [3]])
-   ```
-
-   同理，如果我们按照`axis=1`进行删除，那么会把第一列的数据删掉。
 
 ### 三维以上数组
 
