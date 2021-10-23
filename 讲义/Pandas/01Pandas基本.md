@@ -28,7 +28,7 @@
 
 `Series` （系列、数列、序列）是一个带有标签的一维数组。以下各国的 GDP 就是一个典型的 `Series`，国家是标签、索引，不是具体的数据，起到解释数据的作用。
 
-```
+```python
 中国  14.22
 美国  21.34
 日本  5.18
@@ -52,7 +52,7 @@ dtype: float64
 
 熟悉了上边的概念，我们来看看一个具体的 `DataFrame`:
 
-```
+```python
        人口    GDP
 中国  14.33  14.22
 美国   3.29  21.34
@@ -85,7 +85,7 @@ dtype: float64
 
 我们在使用 `Pandas` 时，需要将导入：
 
-```
+```python
 import pandas as pd
 ```
 
@@ -97,7 +97,7 @@ import pandas as pd
 
 同样，有时如果需要 `Numpy` 则用以下代码引入并起别名 `np`
 
-```
+```python
 import numpy as np
 ```
 
@@ -105,7 +105,7 @@ import numpy as np
 
 使用 `pd.DataFrame()` 可以创建一个 `DataFrame`，然后用 `df` 做为变量赋值给它。`df` 是指 `DataFrame`，也是约定俗成建议尽量使用。
 
-```
+```python
 df = pd.DataFrame({'国家': ['中国', '美国', '日本'],
                    '地区': ['亚洲', '北美', '亚洲'],
                    '人口': [14.33, 3.29, 1.26],
@@ -130,7 +130,7 @@ df
 
 我们知道，`DataFrame` 可以容纳 `Series`，所以我们在定义 `DataFrame` 时可以使用 `Series`，同时也可以利用 `Numpy` 的方法：
 
-```
+```python
 df2 = pd.DataFrame({'A': 1.,
                     'B': pd.Timestamp('20130102'),
                     'C': pd.Series(1, index=list(range(4)), dtype='float32'),
@@ -154,7 +154,7 @@ df2
 
 我们从上例 `df` 中取一列：
 
-```
+```python
 df['人口']
 '''
 0    14.33
@@ -166,7 +166,7 @@ Name: 人口, dtype: float64
 
 从 `DataFrame` 中选取一列就会返回一个 `Series`，当然选择多列的话依然是 `DataFrame`。下边我们单独创建一个 Series：
 
-```
+```python
 gdp = pd.Series([14.22, 21.34, 5.18], name='gdp')
 gdp
 '''
@@ -183,7 +183,7 @@ Name: gdp, dtype: float64
 
 上边我们定义了两种对象，对这两种对象，我们可以进行相关的操作，以下是两种类型的 `describe` 方法，用于对数据进行整体描述：
 
-```
+```python
 df.describe()
 '''
               人口        GDP
@@ -213,7 +213,7 @@ Name: gdp, dtype: float64
 
 最大值：
 
-```
+```python
 df.max()
 '''
 国家        美国
@@ -229,7 +229,7 @@ gdp.max()
 
 查看类型：
 
-```
+```python
 type(s) # pandas.core.series.Series
 type(df) # pandas.core.frame.DataFrame
 ```
@@ -244,7 +244,7 @@ type(df) # pandas.core.frame.DataFrame
 
 `Series` 的创建方式如下：
 
-```
+```python
 s = pd.Series(data, index=index)
 ```
 
@@ -261,7 +261,7 @@ s = pd.Series(data, index=index)
 
 列表和元组可以直接放入 `pd.Series()`：
 
-```
+```python
 pd.Series(['a', 'b', 'c', 'd', 'e'])
 pd.Series(('a', 'b', 'c', 'd', 'e'))
 ```
@@ -270,7 +270,7 @@ pd.Series(('a', 'b', 'c', 'd', 'e'))
 
 可以是 `Numpy` 的 `ndarray`:
 
-```
+```python
 # 由索引为 a、b.. ， 五个随机浮点数数组组成
 s = pd.Series(np.random.randn(5), index=['a', 'b', 'c', 'd', 'e'])
 s.index # 查看索引
@@ -281,7 +281,7 @@ s = pd.Series(np.random.randn(5)) # 未指定索引
 
 使用字典来生成后，key 为索引，value 为内容，顺序为字典内容的顺序：
 
-```
+```python
 d = {'b': 1, 'a': 0, 'c': 2}
 s = pd.Series(d)
 [out]:
@@ -304,7 +304,7 @@ dtype: float64
 
 一个具体的值，如果不指定索引长度为 1，指定索引后长度为索引的数量，每个索引的值都是它。
 
-```
+```python
 pd.Series(5.)
 Out:
 0    5.0
@@ -328,7 +328,7 @@ dtype: float64
 
 `Series` 操作与 `ndarray`类似，支持切片。
 
-```
+```python
 s = pd.Series([1,2,3,4,5,6,7,8])
 s[3] # 类似列表切片
 s[2:]
@@ -343,7 +343,7 @@ s.to_numpy() # 转为 numpy 的 ndarray
 
 #### （2）类似字典的操作
 
-```
+```python
 s = pd.Series([14.22, 21.34, 5.18], 
               index=['中国', '美国', '日本'], 
               name='人口')
@@ -355,7 +355,7 @@ s['印度'] = 13.54 # 类似字典一样增加一个数据
 
 #### （3）向量计算和标签对齐
 
-```
+```python
 s = pd.Series([1,2,3,4])
 s + s # 同索引相加，无索引位用 NaN 补齐
 s * 2 # 同索引相乘
@@ -367,7 +367,7 @@ np.exp(s) # 求e的幂次方
 
 `Series` 可以指定一个名称，如无名称不返回内容（`NoneType`）。
 
-```
+```python
 s = pd.Series([1,2,3,4], name='数字')
 s.name # '数字'
 s = s.rename("number") # 修改名称
@@ -376,7 +376,7 @@ s2 = s.rename("number") # 修改名称并赋值给一个新变量
 
 ### 4.其他操作
 
-```
+```python
 s = pd.Series([1,2,3,4], name='数字')
 s.add(1) # 每个元素加1 abs()
 s.add_prefix(3) # 给索引前加个3，升位
@@ -401,7 +401,7 @@ s3 = s.copy() # 深拷贝
 
 ### 1.定义方法
 
-```
+```python
 df = pd.DataFrame(
     data=None,
     index: 'Axes | None' = None,
@@ -436,7 +436,7 @@ df = pd.DataFrame(
 
 当将字典传递给 `copy=False` 的 `DataFrame` 时，将不再进行复制：
 
-```
+```python
 arr = np.array([1, 2, 3])
 df = pd.DataFrame({"A": arr, "B": arr.copy()}, copy=False)
 df
@@ -450,7 +450,7 @@ df
 
 `df[“A”]` 仍然是 `arr` 上的视图：
 
-```
+```python
 arr[0] = 0
 # assert df.iloc[0, 0] == 0
 '''
@@ -469,7 +469,7 @@ arr[0] = 0
 
 #### （1）字典
 
-```
+```python
 d = {'国家': ['中国', '美国', '日本'],
      '人口': [14.33, 3.29, 1.26]}
 df = pd.DataFrame(d)
@@ -485,7 +485,7 @@ df
 
 可以指定索引，会覆盖原有的索引：
 
-```
+```python
 df = pd.DataFrame(d, index=['a', 'b', 'c'])
 df
 '''
@@ -498,7 +498,7 @@ c  日本   1.26
 
 #### （2）Series 组成的字典
 
-```
+```python
 d = {'one': pd.Series([1., 2., 3.], index=['a', 'b', 'c']),
      'two': pd.Series([1., 2., 3., 4.], index=['a', 'b', 'c', 'd'])}
 df = pd.DataFrame(d)
@@ -514,7 +514,7 @@ d  NaN  4.0
 
 指定索引和列名，会覆盖原有的列名：
 
-```
+```python
 pd.DataFrame(d, index=['d', 'b', 'a'], columns=['two', 'three'])
 '''
    two three
@@ -526,7 +526,7 @@ a  1.0   NaN
 
 #### （3）ndarrays 或列表组成的字典
 
-```
+```python
 d = {'one': [1., 2., 3., 4.],
      'two': [4., 3., 2., 1.]}
 
@@ -551,7 +551,7 @@ d  4.0  1.0
 
 #### （4）同构的数组数据
 
-```
+```python
 # 创建一个空的 2x3 数组
 data = np.zeros((2, ), dtype=[('A', 'i4'), ('B', 'f4'), ('C', 'a10')])
 
@@ -585,7 +585,7 @@ pd.DataFrame(data, columns=['C', 'A', 'B'])
 
 #### （5）字典和列表
 
-```
+```python
 # 定义一个字典列表
 data2 = [{'a': 1, 'b': 2}, {'a': 5, 'b': 10, 'c': 20}]
 
@@ -616,7 +616,7 @@ pd.DataFrame(data2, columns=['a', 'b'])
 
 #### （6）元组组成的字典
 
-```
+```python
 # 一个双索引的例子
 pd.DataFrame({('a', 'b'): {('A', 'B'): 1, ('A', 'C'): 2},
               ('a', 'a'): {('A', 'C'): 3, ('A', 'B'): 4},
@@ -636,14 +636,14 @@ A B  1.0  4.0  5.0  8.0  10.0
 
 可以将多个同索引的 `Series`，生成 `DataFrame`：
 
-```
+```python
 s1 = pd.Series(['a', 'b', 'c', 'd', 'e'])
 pd.DataFrame(s1)
 ```
 
 #### （8）混杂的结构
 
-```
+```python
 # 从字典里生成
 pd.DataFrame.from_dict(dict([('A', [1, 2, 3]), ('B', [4, 5, 6])]))
 # 从列表、元组、ndarray 中创建
@@ -663,7 +663,7 @@ df.col.apply(pd.Series)
 
 带有时区的日期时间格式。
 
-```
+```python
  # 时区为北京时间，单位支持纳秒
 d = pd.DatetimeTZDtype("ns", tz='Asia/Shanghai')
 pd.Series(['20200501 22:23:22.3432'], dtype=d)
@@ -673,14 +673,14 @@ pd.Series(['20200501 22:23:22.3432'], dtype=d)
 
 也可以用字符串去指定类型，此字符串可用在所有指定数据类型的地方，所有数据类型道理一样。
 
-```
+```python
 pd.Series(['20200501 22:23:22.3432'], dtype='datetime64[ns, Asia/Shanghai]')
 pd.Series(['20200501 22:23:22.3432'], dtype='datetime64[ns]') # 无时区
 ```
 
 如果需要指定一个时间定值，可以用 `pd.Timestamp()`:
 
-```
+```python
 # 用字符形式
 pd.Timestamp('2017-01-01T12')
 # Timestamp('2017-01-01 12:00:00')
@@ -704,7 +704,7 @@ pd.Timestamp(year=2017, month=1, day=1, hour=12)
 
 定义一个有限的字符枚举类型：
 
-```
+```python
 t = pd.CategoricalDtype(categories=['b', 'a'], ordered=True)
 pd.Series(['a', 'b', 'a', 'c'], dtype=t) # 'c' 不在列表是值会为 NaN
 '''
@@ -737,7 +737,7 @@ c.min()
 
 支持时间周期
 
-```
+```python
 pd.PeriodDtype(freq='D') # 按天
 # period[D]
 pd.PeriodDtype(freq=pd.offsets.MonthEnd()) # 按月，最后一天
@@ -752,7 +752,7 @@ pd.PeriodDtype(freq=pd.offsets.MonthEnd()) # 按月，最后一天
 
 支持字符类型数据。
 
-```
+```python
 pd.Series(['a','b','c'], dtype=pd.StringDtype())
 '''
 0    a
@@ -768,7 +768,7 @@ dtype: string
 
 可以使用类型测试数据的类型：
 
-```
+```python
 pd.api.types.is_bool_dtype(s)
 pd.api.types.is_categorical_dtype(s)
 pd.api.types.is_datetime64_any_dtype(s)
@@ -789,7 +789,7 @@ pd.api.types.is_bool_dtype(s)
 
 #### （1）数据初始化时指定
 
-```
+```python
 df = pd.DataFrame(data, dtype='float32') # 对所的字段指定类型
  # 每个字段分别指定
 df = pd.read_excel(data, dtype={'team': 'string', 'Q1': 'int32'})
@@ -799,7 +799,7 @@ df = pd.read_excel(data, dtype={'team': 'string', 'Q1': 'int32'})
 
 `Pandas` 可以用以下方法智能地推定各列的数据类型，以下方法不妨一试：
 
-```
+```python
 # 自动转换合适的数据类型
 df.convert_dtypes() # 推荐！新的方法，支持 string 类型
 df.infer_objects()
@@ -832,7 +832,7 @@ df.apply(pd.to_timedelta)
 
 和`Numpy`的数据类型转换一样，这也是最常见的数据类型转换方式，各数据类型可以参考`Numpy`的数据类型
 
-```
+```python
 df.dtypes # 查看数据类型
 df.index.astype('int64') # 索引类型转换
 df.astype('int32') # 所有数据转换为 int32
