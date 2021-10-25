@@ -618,18 +618,6 @@ s1 = pd.Series(['a', 'b', 'c', 'd', 'e'])
 pd.DataFrame(s1)
 ```
 
-#### （8）混杂的结构
-
-```python
-# 从字典里生成
-pd.DataFrame.from_dict(dict([('A', [1, 2, 3]), ('B', [4, 5, 6])]))
-# 从列表、元组、ndarray 中创建
-pd.DataFrame.from_records([(1, 2., b'Hello'), (2, 3., b'World')])
-# 列内容为一个字典
-pd.json_normalize(df.col)
-df.col.apply(pd.Series)
-```
-
 ## 五、数据类型
 
 `Pandas` 的数据类型是指某一列的里所有的数据的共性，如果全是数字那么就是类型数字型，其中一个不是数据那么就没法是数字型了。我们知道 `Pandas` 里的一列可以由 `NumPy` 数组组成，事实上大多 `NumPy` 的数据类型就是 `Pandas` 的类型，`Pandas` 也会有自己特有的数据类型。
@@ -790,19 +778,20 @@ pd.to_datetime(m, errors='coerce') # 错误处理
 pd.to_numeric(m, errors='ignore')
 pd.to_numeric(m errors='coerce').fillna(0) # 兜底填充
 pd.to_datetime(df[['year', 'month', 'day']]) # 组合成日期
+pd.to_numeric(m, downcast='integer') 
+'''
+erros:
+	-ignore:只对数字字符串转换，其他忽略不转换
+	-raise:遇到非数字字符串报错，时间类型可以转换成int
+	-coerce:将时间字符串和bool类型转换成数字，其他均转换成NaN
 
-# 最低期望
-pd.to_numeric(m, downcast='integer') # smallest signed int dtype
-# array([1, 2, 3], dtype=int8)
-pd.to_numeric(m, downcast='signed') # same as 'integer'
-# array([1, 2, 3], dtype=int8)
-pd.to_numeric(m, downcast='unsigned') # smallest unsigned int dtype
-# array([1, 2, 3], dtype=uint8)
-pd.to_numeric(m, downcast='float') # smallest float dtype
-# array([1., 2., 3.], dtype=float32)
+downcast:指定转换的类型，默认返回float64
+	-integer
+	-signed
+	-unsigned
+	-float
+'''
 
-# 应用函数
-df.apply(pd.to_timedelta)
 ```
 
 #### （3）类型转换 astype()

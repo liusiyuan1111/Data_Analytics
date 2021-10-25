@@ -138,3 +138,59 @@ df = pd.DataFrame(d, index=['a', 'b', 'c'])
 d = {'one': pd.Series([1., 2., 3.], index=['a', 'b', 'c']),
      'two': pd.Series([1., 2., 3., 4.], index=['a', 'b', 'c', 'd'])}
 df = pd.DataFrame(d)
+
+# ndarray或列表
+d = {'one': [1., 2., 3., 4.],
+     'two': [4., 3., 2., 1.]}
+
+pd.DataFrame(d)
+
+# 同构的数组
+data = np.zeros((2,), dtype=[('A', 'i4'), ('B', 'f4'), ('C', 'a10')])
+data[:] = [(1, 2., 'Hello'), (2, 3., "World")]
+pd.DataFrame(data)
+
+# 字典和列表
+# 定义一个字典列表
+data2 = [{'a': 1, 'b': 2}, {'a': 5, 'b': 10, 'c': 20}]
+
+# 生成 DataFrame 对象
+pd.DataFrame(data2)
+
+# Series
+s1 = pd.Series(['a', 'b', 'c', 'd', 'e'])
+pd.DataFrame(s1)
+
+# 四、特有的数据类型
+d = pd.DatetimeTZDtype("ns", tz='Asia/Shanghai')
+pd.Series(['20200501 22:23:22.3432'], dtype=d)
+pd.Series(['20200501 22:23:22.3432'], dtype='datetime64[ns, Asia/Shanghai]')
+pd.Series(['20200501 22:23:22.3432'], dtype='datetime64[ns]') # 无时区
+
+# 用字符形式
+pd.Timestamp('2017-01-01T12')
+# Timestamp('2017-01-01 12:00:00')
+
+# Unix epoch 指定时间单和时区
+pd.Timestamp(1513393355.5, unit='s')
+# Timestamp('2017-12-16 03:02:35.500000')
+pd.Timestamp(1513393355, unit='s', tz='US/Pacific')
+# Timestamp('2017-12-15 19:02:35-0800', tz='US/Pacific')
+
+# 用 datetime.datetime 的方法
+pd.Timestamp(2017, 1, 1, 12)
+# Timestamp('2017-01-01 12:00:00')
+pd.Timestamp(year=2017, month=1, day=1, hour=10)
+# Timestamp('2017-01-01 12:00:00')
+
+t = pd.CategoricalDtype(categories=['b', 'a'], ordered=True)
+pd.Series(['a', 'b', 'a', 'c'], dtype=t) # 'c' 不在列表是值会为 NaN
+
+pd.Categorical([1, 2, 3, 1, 2, 3])
+
+pd.PeriodDtype(freq='D') # 按天
+# period[D]
+pd.PeriodDtype(freq=pd.offsets.MonthEnd()) # 按月，最后
+
+pd.Series(['a','b','c'], dtype=pd.StringDtype())
+
