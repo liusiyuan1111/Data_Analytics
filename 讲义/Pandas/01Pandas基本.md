@@ -164,7 +164,7 @@ Name: 人口, dtype: float64
 '''
 ```
 
-从 `DataFrame` 中选取一列就会返回一个 `Series`，当然选择多列的话依然是 `DataFrame`。下边我们单独创建一个 Series：
+从 `DataFrame` 中选取一列就会返回一个 `Series`，当然选择多列的话依然是 `DataFrame`。下边我们单独创建一个 `Series`：
 
 ```python
 gdp = pd.Series([14.22, 21.34, 5.18], name='gdp')
@@ -245,7 +245,7 @@ type(df) # pandas.core.frame.DataFrame
 `Series` 的创建方式如下：
 
 ```python
-s = pd.Series(data, index=index)
+s = pd.Series(data, index=[])
 ```
 
 其中：
@@ -284,20 +284,26 @@ s = pd.Series(np.random.randn(5)) # 未指定索引
 ```python
 d = {'b': 1, 'a': 0, 'c': 2}
 s = pd.Series(d)
+'''
 [out]:
 b    1
 a    0
 c    2
 dtype: int64
+'''
+
 
 #  如果指定索引，则会按索引顺序，如无法与索引对应的会产生缺失值
 pd.Series(d, index=['b', 'c', 'd', 'a'])
+'''
 Out:
 b    1.0
 c    2.0
 d    NaN
 a    0.0
 dtype: float64
+'''
+
 ```
 
 #### （4）标量（scalar value）
@@ -306,11 +312,14 @@ dtype: float64
 
 ```python
 pd.Series(5.)
+'''
 Out:
 0    5.0
+'''
 dtype: float64
 # 指定索引
 pd.Series(5., index=['a', 'b', 'c', 'd', 'e'])
+'''
 Out:
 a    5.0
 b    5.0
@@ -318,6 +327,8 @@ c    5.0
 d    5.0
 e    5.0
 dtype: float64
+'''
+
 ```
 
 ### 3.Series 操作
@@ -378,14 +389,13 @@ s2 = s.rename("number") # 修改名称并赋值给一个新变量
 
 ```python
 s = pd.Series([1,2,3,4], name='数字')
-s.add(1) # 每个元素加1 abs()
+s.add(1) # 每个元素加1 
 s.add_prefix(3) # 给索引前加个3，升位
 s.add_suffix(4) # 同上，在后增加
 s.sum() # 总和
 s.count() # 数量，长度
 s.agg('std') # 聚合，仅返回标准差, 与 s.std() 相同
 s.agg(['min', 'max']) # 聚合，返回最大最小值
-s.align(s2) # 联接
 s.any() # 是否有为假的
 s.all() # 是否全是真
 s.append(s2) # 追加另外一个 Series
@@ -403,11 +413,11 @@ s3 = s.copy() # 深拷贝
 
 ```python
 df = pd.DataFrame(
-    data=None,
-    index: 'Axes | None' = None,
-    columns: 'Axes | None' = None,
-    dtype: 'Dtype | None' = None,
-    copy: 'bool | None' = None,
+    data=,
+    index = ,
+    columns = ,
+    dtype = ,
+    copy = ,
 )
 ```
 
@@ -430,40 +440,7 @@ df = pd.DataFrame(
 - 一个或者多个 `Series`
 - 一个或者多个 `DataFrame` 也可以定义
 
-### 3.字典的 copy=False
-
-> 此处较难理解，可先跳过。
-
-当将字典传递给 `copy=False` 的 `DataFrame` 时，将不再进行复制：
-
-```python
-arr = np.array([1, 2, 3])
-df = pd.DataFrame({"A": arr, "B": arr.copy()}, copy=False)
-df
-'''
-   A  B
-0  1  1
-1  2  2
-2  3  3
-'''
-```
-
-`df[“A”]` 仍然是 `arr` 上的视图：
-
-```python
-arr[0] = 0
-# assert df.iloc[0, 0] == 0
-'''
-   A  B
-0  0  1
-1  2  2
-2  3  3
-'''
-```
-
-不传递 `copy` 时的默认行为将保持不变，即将创建一份副本。
-
-### 4.创建生成
+### 3.创建生成
 
 下边介绍的是利用现有的 `Python` 数据创建一个 `DataFrame`，但是大多数情况下我们都是从数据文件如 CSV、Excel 中取得数据，不过，了解这部分知道可以让我们更好地理解 `DataFrame` 的数据机制。
 
@@ -845,3 +822,4 @@ data['Q4'].astype('float')
 s.astype('datetime64[ns]')
 data['状态'].astype('bool')
 ```
+
