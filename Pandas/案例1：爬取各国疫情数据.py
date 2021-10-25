@@ -13,7 +13,7 @@ import requests
 
 s = requests.Session()
 #访问数据
-covid = s.get('https://api.inews.qq.com/newsqa/v1/query/inner/publish/modules/list?modules=provinceCompare')
+covid = s.get('https://api.inews.qq.com/newsqa/v1/automation/foreign/country/ranklist')
 #数据文本
 data = covid.text
 #读取解析JSON

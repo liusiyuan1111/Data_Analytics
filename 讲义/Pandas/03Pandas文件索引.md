@@ -23,7 +23,7 @@
 之前我们学习了加载数据生成 `DataFrame` 时可以指定索引
 
 ```python
-data = 'https://www.gairuo.com/file/data/dataset/team.xlsx'
+data = 'res/team.xlsx'
 df = pd.read_excel(data, index_col='name') # 设置索引为 name
 df
 '''
@@ -108,21 +108,7 @@ IntervalIndex([(0, 1], (1, 2], (2, 3], (3, 4], (4, 5]],
 '''
 ```
 
-### 4.多层索引 MultiIndex
-
-```python
-arrays = [[1, 1, 2, 2], ['red', 'blue', 'red', 'blue']]
-pd.MultiIndex.from_arrays(arrays, names=('number', 'color'))
-'''
-MultiIndex([(1,  'red'),
-            (1, 'blue'),
-            (2,  'red'),
-            (2, 'blue')],
-           names=['number', 'color'])
-'''
-```
-
-### 5.时间索引 DatetimeIndex
+### 4.时间索引 DatetimeIndex
 
 ```python
 # 从一个日期连续到另一个日期
@@ -136,7 +122,7 @@ pd.period_range(start=pd.Period('2017Q1', freq='Q'),
                 end=pd.Period('2017Q2', freq='Q'), freq='M')
 ```
 
-### 6.时间差 TimedeltaIndex
+### 5.时间差 TimedeltaIndex
 
 ```python
 pd.TimedeltaIndex(data =['06:05:01.000030', '+23:59:59.999999',
@@ -148,7 +134,7 @@ pd.TimedeltaIndex(['1 days', '1 days, 00:00:05',
                    datetime.timedelta(days=2, seconds=2)])
 ```
 
-### 7.周期索引 PeriodIndex
+### 6.周期索引 PeriodIndex
 
 ```python
 t = pd.period_range('2020-5-1 10:00:05', periods=8, freq='S')

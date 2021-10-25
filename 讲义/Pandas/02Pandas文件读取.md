@@ -36,19 +36,11 @@
 
 ```python
 # 文件目录
-pd.read_csv('data.csv') # 如果文件与代码文件在同目录下
-pd.read_csv('data/my/data.csv') # 指定目录
-pd.read_csv('data/my/my.data') # CSV 文件扩展名不一定是 csv
+pd.read_csv('GDP-China.csv') # 如果文件与代码文件在同目录下
+pd.read_csv('data/my/GDP-China.csv') # 指定目录
 # 使用网址 url
 pd.read_csv('https://www.gairuo.com/file/data/dataset/GDP-China.csv')
 
-# 也可以从 StringIO 中读取
-from io import StringIO
-data = ('col1,col2,col3\n'
-        'a,b,1\n'
-        'a,b,2\n'
-        'c,d,3')
-pd.read_csv(StringIO(data))
 ```
 
 注：csv 文件扩展名不一定是 `.csv`
@@ -78,8 +70,6 @@ pd.read_csv(data, usecols=['列1', '列5']) # 按索引只读取指定列
 # 指定列顺序，其实是 df 的筛选功能
 pd.read_csv(data, usecols=['列1', '列5'])[['列5', '列1']]
 pd.read_csv(data, index_col=0) # 第几列是索引
-# 以下用 callable 方式可以巧妙指定顺序, in 后边的是我们要的顺序
-pd.read_csv(data, usecols=lambda x: x.upper() in ['COL3', 'COL1'])
 ```
 
 ### 4.数据类型
@@ -89,18 +79,10 @@ data = 'https://www.gairuo.com/file/data/dataset/GDP-China.csv'
 # 指定数据类型
 pd.read_csv(data, dtype=np.float64) # 所有数据均为此数据类型
 pd.read_csv(data, dtype={'c1':np.float64, 'c2': str}) # 指定字段的类型
-
 # 解析日期时间
 pd.read_csv(data, parse_dates=True) # 自动解析日期时间格式
-pd.read_csv(data, parse_dates=['年份']) # 指定日期时间字段进行解析
-# 将 1、4 列合并解析成名为 时间的 时间类型列
-pd.read_csv(data, parse_dates={'时间':[1,4]})
-# 指定时间解析库，默认是 dateutil.parser.parser
-pd.read_csv(data, date_parser=pd.io.date_converters.parse_date_time)
-date_parser=lambda x: pd.to_datetime(x, utc=True, format=...)
-```
 
-更多功能可参考 [pandas.read_csv 详细使用](https://www.gairuo.com/p/pandas-read-csv)。
+```
 
 ### 5.导出文件
 
@@ -108,12 +90,7 @@ date_parser=lambda x: pd.to_datetime(x, utc=True, format=...)
 df.to_csv('done.csv')
 df.to_csv('data/done.csv') # 可以指定文件目录路径
 df.to_csv('done.csv', index=False) # 不要索引
-# 导出二进制文件句柄（缓冲）, 支持编码和压缩 pandas 1.2.0 增加
-import io
-buffer = io.BytesIO()
-df.to_csv(buffer, encoding="utf-8", compression="gzip")
-# 指定一列导出 txt 格式文件
-df.Q1.to_csv('Q1_test.txt', index=None)
+
 ```
 
 ## 二、Excel 文件
@@ -123,7 +100,7 @@ df.Q1.to_csv('Q1_test.txt', index=None)
 ```python
 xlsx = pd.ExcelFile('data.xlsx')
 df = pd.read_excel(xlsx, 'Sheet1') # 读取
-xlsx.parse('sheet1') # 取指定标签为 DataFrame
+xlsx.parse('Sheet1') # 取指定标签为 DataFrame
 # Excel 的所有标签
 xlsx.sheet_names
 # ['sheet1', 'sheet2', 'sheet3', 'sheet4']
@@ -151,21 +128,7 @@ pd.read_excel('tmp.xlsx', index_col=0,
 pd.read_excel('path_to_file.xls', sheet_name=['Sheet1', 'Sheet2'])
 ```
 
-ExcelFile 对象：
-
-```python
-# 使用 ExcelFile 保存文件对象
-xlsx = pd.ExcelFile('path_to_file.xls')
-df = pd.read_excel(xlsx, 'Sheet1')
-
-# 可以把多个 Sheet 存入 ExcelFile
-with pd.ExcelFile('path_to_file.xls') as xls:
-    df1 = pd.read_excel(xls, 'Sheet1')
-    df2 = pd.read_excel(xls, 'Sheet2')
-df = pd.read_excel(xlsx)
-```
-
-常用的参数使用与 [read_csv](https://www.gairuo.com/p/pandas-read-csv) 相同，详细参数可以通过[pandas.read_excel](https://www.gairuo.com/p/pandas-read-excel)阅读。
+常用的参数使用与 read_csv相同
 
 ### 2.导出 excel
 
@@ -180,17 +143,6 @@ with pd.ExcelWriter('path_to_file.xlsx') as writer:
     df1.to_excel(writer, sheet_name='Sheet1')
     df2.to_excel(writer, sheet_name='Sheet2')
 
-# 指定操作引擎
-df.to_excel('path_to_file.xlsx', sheet_name='Sheet1', engine='xlsxwriter')
-# By setting the 'engine' in the ExcelWriter constructor.
-writer = pd.ExcelWriter('path_to_file.xlsx', engine='xlsxwriter')
-df.to_excel(writer)
-writer.save()
-
-# 设置系统引擎
-from pandas import options  # noqa: E402
-options.io.excel.xlsx.writer = 'xlsxwriter'
-df.to_excel('path_to_file.xlsx', sheet_name='Sheet1')
 ```
 
 ## 三、JSON 格式
@@ -209,10 +161,10 @@ pd.read_json(json)
 pd.read_json(json, orient='split') # json 格式
 '''
 orient 支持：
-- 'split' : dict like {index -> [index], columns -> [columns], data -> [values]}
-- 'records' : list like [{column -> value}, ... , {column -> value}]
-- 'index' : dict like {index -> {column -> value}}
-- 'columns' : dict like {column -> {index -> value}}
+- 'split' : dict like {index:[index], columns:[columns], data:[values]}
+- 'records' : list like [{column:value}, ... , {column:value}]
+- 'index' : dict like {index:{column:value}}
+- 'columns' : dict like {column:{index:value}}
 '''
 ```
 
@@ -263,7 +215,7 @@ dfs1 = pd.read_html(url, attrs={'id': 'table'})
 dfs2 = pd.read_html(url, attrs={'class': 'sortable'})
 ```
 
-常用的参数使用与 [read_csv](https://www.gairuo.com/p/pandas-read-csv) 相同。
+常用的参数使用与 read_csv 相同。
 
 ### 2.输出 html
 
