@@ -132,11 +132,11 @@ df.to_xml(root_name="geometry", row_name="objects")
 df.to_xml(attr_cols=df.columns.tolist())
 # <row index="0" name="Liver" team="E" Q1="89" Q2="21" Q3="24" Q4="64"/>
 # 编写元素和属性的组合
-(df.to_xml(
+df.to_xml(
         index=False,
         attr_cols=['shape'],
         elem_cols=['degrees', 'sides'])
-)
+
 
 
 df.to_markdown(index=False)

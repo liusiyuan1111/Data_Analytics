@@ -239,7 +239,7 @@ df.to_json(orient='split')
 仅解析网页内 `<table>` 标签里的数据。
 
 ```python
-dfs = pd.read_html('https://www.runoob.com/css/css-margin.html{}')
+dfs = pd.read_html('https://www.runoob.com/css/css-margin.html')
 dfs[0] # 查看第一个 df
 # 读取网页文件，第一行为表头
 dfs = pd.read_html('data.html', header=0)
@@ -320,36 +320,7 @@ df = pd.DataFrame({'A': [1, 2, 3],
 df.to_clipboard()
 ```
 
-## 六、SQL
-
-`Pandas` 支持连接数据库进行查询，有以下几个方法：
-
-- `read_sql_table(table_name, con[, schema, …])`, 把数据表里的数据转成 `DataFrame`
-- `read_sql_query(sql, con[, index_col, …])`, 用 sql 查询数据到 `DataFrame`
-- `read_sql(sql, con[, index_col, …])`, 同时支持上边两个功能
-- `DataFrame.to_sql(self, name, con[, schema, …])`，把记录数据写到数据库里
-
-```python
-# 需要安装 sqlalchemy 库
-from sqlalchemy import create_engine
-# 创建数据库对象，sqlite 内存模式
-engine = create_engine('sqlite:///:memory:')
-# 把表名为 data 的表数据拿出来
-with engine.connect() as conn, conn.begin():
-    data = pd.read_sql_table('data', conn)
-
-# data
-# 将数据写入
-data.to_sql('data', engine)
-# 大量写入
-data.to_sql('data_chunked', engine, chunksize=1000)
-# 使用 sql 查询
-pd.read_sql_query('SELECT * FROM data', engine)
-# 使用 sql 查询后直接指定数据类型，1.3.0+
-pd.read_sql_query('SELECT * FROM data', dtype={'a': np.float64, 'b': 'str', 'c': int})
-```
-
-## 七、XML
+## 六、XML
 
 `Pandas 1.3.0` 的 `I/O` 模块添加了 `read_xml()` 和 `DataFrame.to_xml()` 支持来读取和导出 `XML` 文档。它使用 `lxml` 作为解析器，`XPath1.0` 和 `XSLT1.0` 都可用。
 
@@ -416,17 +387,15 @@ df.to_xml() # 输出 xml 字符
 df.to_xml(root_name="geometry", row_name="objects")
 # 编写以属性为中心(attribute-centric)的XML
 df.to_xml(attr_cols=df.columns.tolist())
-# <row index="0" name="Liver" team="E" Q1="89" Q2="21" Q3="24" Q4="64"/>
+
 # 编写元素和属性的组合
-(df.to_xml(
+df.to_xml(
         index=False,
         attr_cols=['shape'],
         elem_cols=['degrees', 'sides'])
-)
-
 ```
 
-## 八、输出 Markdown
+## 七、输出 Markdown
 
 `Markdown`是一种常用的技术文档编写语言，`Pandas` 支持输出 `Markdown` 格式字符串：
 
