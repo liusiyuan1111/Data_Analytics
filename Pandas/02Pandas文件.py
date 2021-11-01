@@ -70,7 +70,7 @@ dfs = pd.read_html(url)
 dfs[0] # 查看第一个 df
 
 # 读取网页文件，第一行为表头
-dfs = pd.read_html('data.html', header=0)
+dfs = pd.read_html('data.html', header=0,attrs={'class':'df1'})
 # 第一列为索引
 dfs = pd.read_html(url, index_col=0)
 header = '''
@@ -123,3 +123,22 @@ xml = """<?xml version='1.0' encoding='utf-8'?>
 df = pd.read_xml(xml)
 
 pd.read_xml("https://www.w3school.com.cn/example/xdom/books.xml",attrs_only=True)
+
+
+df.to_xml() # 输出 xml 字符
+# 指定根节点和各行的标签名称
+df.to_xml(root_name="geometry", row_name="objects")
+# 编写以属性为中心(attribute-centric)的XML
+df.to_xml(attr_cols=df.columns.tolist())
+# <row index="0" name="Liver" team="E" Q1="89" Q2="21" Q3="24" Q4="64"/>
+# 编写元素和属性的组合
+(df.to_xml(
+        index=False,
+        attr_cols=['shape'],
+        elem_cols=['degrees', 'sides'])
+)
+
+
+df.to_markdown(index=False)
+with open("df.md",'w') as f:
+    f.write(df.to_markdown(index=False))

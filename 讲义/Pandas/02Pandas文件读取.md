@@ -239,7 +239,7 @@ df.to_json(orient='split')
 仅解析网页内 `<table>` 标签里的数据。
 
 ```python
-dfs = pd.read_html('https://www.gairuo.com/p/pandas-io')
+dfs = pd.read_html('https://www.runoob.com/css/css-margin.html{}')
 dfs[0] # 查看第一个 df
 # 读取网页文件，第一行为表头
 dfs = pd.read_html('data.html', header=0)
@@ -423,16 +423,7 @@ df.to_xml(attr_cols=df.columns.tolist())
         attr_cols=['shape'],
         elem_cols=['degrees', 'sides'])
 )
-# 具有默认命名空间的 XML
-df.to_xml(namespaces={"": "https://example.com"})
-# 具有命名空间前缀的 XML
-df.to_xml(namespaces={"doc": "https://example.com"},
-                   prefix="doc")
-# 编写不带声明或漂亮打印的XML
-df.to_xml(xml_declaration=False,
-                    pretty_print=False)
-# XML和样式表转换，xsl 为样式字符串
-df.to_xml(stylesheet=xsl)
+
 ```
 
 ## 八、输出 Markdown
@@ -440,7 +431,7 @@ df.to_xml(stylesheet=xsl)
 `Markdown`是一种常用的技术文档编写语言，`Pandas` 支持输出 `Markdown` 格式字符串：
 
 ```python
-print(df.to_markdown())
+df.to_markdown()
 '''
 |    |   A |   B | C   |
 |:---|----:|----:|:----|
