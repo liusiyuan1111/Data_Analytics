@@ -149,10 +149,53 @@ with pd.ExcelWriter('path_to_file.xlsx') as writer:
 
 `Pandas` 可以读取和生成 `Json` 字符串，`Series` 或 `DataFrame` 都可以被转换。`JSON` 格式在网络上非常通用，在写爬虫时可以使用极大提高效率，在做可视化时前端的 `JS` 库往往需要接受 `Json` 格式。
 
+21世纪初，Douglas Crockford寻找一种简便的数据交换格式，能够在服务器之间交换数据。当时通用的数据交换语言是XML，但是Douglas Crockford觉得XML的生成和解析都太麻烦，所以他提出了一种简化格式，也就是Json。
+
+Json的规格非常简单，只用一个页面几百个字就能说清楚，而且Douglas Crockford声称这个规格永远不必升级，因为该规定的都规定了。
+
+> 1） 并列的数据之间用逗号（", "）分隔。
+>
+> 2） 映射用冒号（": "）表示。
+>
+> 3） 并列数据的集合（数组）用方括号("[]")表示。
+>
+> 4） 映射的集合（对象）用大括号（"{}"）表示。
+
+上面四条规则，就是Json格式的所有内容。
+
+比如，下面这句话：
+
+> "北京市的面积为16800平方公里，常住人口1600万人。上海市的面积为6400平方公里，常住人口1800万。"
+
+写成json格式就是这样：
+
+```json
+[
+　　{"城市":"北京","面积":16800,"人口":1600},
+　　{"城市":"上海","面积":6400,"人口":1800}
+]
+```
+
+如果事先知道数据的结构，上面的写法还可以进一步简化：
+
+```json
+[
+　　["北京",16800,1600],
+　　["上海",6400,1800]
+]
+```
+
+由此可以看到，json非常易学易用。所以，在短短几年中，它就取代xml，成为了互联网上最受欢迎的数据交换格式。
+
 ### 1.读取 JSON
 
 ```python
+#从文件读取
 pd.read_json('data.json')
+#从URL读取
+URL = 'https://static.runoob.com/download/sites.json'
+df = pd.read_json(URL)
+#自定义Json
 json = '''{"columns":["col 1","col 2"],
 "index":["row 1","row 2"],
 "data":[["a","b"],["c","d"]]}
@@ -222,11 +265,31 @@ dfs2 = pd.read_html(url, attrs={'class': 'sortable'})
 会输出 html 表格代码字符串。
 
 ```python
-print(df.to_html())
-print(df.to_html(columns=[0])) # 输出指定列
-print(df.to_html(bold_rows=False)) # 表头不加粗体
+df.to_html()
+df.to_html(columns=[0]) # 输出指定列
+df.to_html(bold_rows=False) # 表头不加粗体
 # 表格指定样式，支持多个
-print(df.to_html(classes=['class1', 'class2']))
+df.to_html(classes=['class1', 'class2'])
+```
+
+```python
+#输出一个html文件
+header = '''
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+'''
+footer = '''
+    </body>
+</html>
+'''
+with open("data.html",'w') as f:
+    f.write(header)
+    f.write(df.to_html(classes='df',bold_rows=False))
+    f.write(df1.to_html(classes='df1'))
+    f.write(footer)
 ```
 
 ## 五、剪贴板 Clipboard
@@ -328,7 +391,7 @@ df
 
 ```python
 # 读取 URL
-pd.read_xml("https://www.w3schools.com/xml/books.xml")
+pd.read_xml("https://www.w3school.com.cn/example/xdom/books.xml")
 # 读取文件
 with open(file_path, "r") as f:
     df = pd.read_xml(f.read())
@@ -337,14 +400,7 @@ with open(file_path, "r") as f:
     sio = StringIO(f.read())
     # bio = BytesIO(f.read())bio = BytesIO(f.read())
 df = pd.read_xml(sio)
-# 从 AWS S3
-df = pd.read_xml(
-    "s3://irs-form-990/201923199349319487_public.xml",
-    xpath=".//irs:Form990PartVIISectionAGrp",
-    namespaces={"irs": "http://www.irs.gov/efile"}
-)
-# 使用 lxml 作为默认解析器，XPath 选择查询节点
-pd.read_xml(file_path, xpath="//book[year=2005]")
+
 # 仅读取元素或者属性
 pd.read_xml(file_path, elems_only=True)
 pd.read_xml(file_path, attrs_only=True)
