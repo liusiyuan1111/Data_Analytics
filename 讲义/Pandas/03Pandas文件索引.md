@@ -1,4 +1,4 @@
-# 03Pandas文件索引
+# 03Pandas索引
 
 `Pandas` 数据的索引就像一本书的目录，让我们很快地找到想要看的章节，作为大量数据，创建合理的具有业务意义的索引对我们分析数据至关重要。
 
@@ -41,9 +41,9 @@ Oah      D  65  49  61  86
 
 ## 三、数据查询
 
-1. Series数据查询
+1. `Series`数据查询
 
-   类似Python的字典dict
+   类似`Python`的字典`dict`
 
    ```python
    s1 = pd.Series([1, 'a', 5.2, 7], index=['a','b','c','d'])
@@ -56,10 +56,10 @@ Oah      D  65  49  61  86
 
    
 
-2. 从DataFrame中查询Series
-- 如果只查询一行、一列，返回的是pd.Series
+2. 从`DataFrame`中查询`Series`
+- 如果只查询一行、一列，返回的是`pd.Series`
 
-- 如果查询多行、多列，返回的是pd.DataFrame
+- 如果查询多行、多列，返回的是`pd.DataFrame`
 
   ```python
   data = 'res/team.xlsx'
@@ -84,12 +84,12 @@ Oah      D  65  49  61  86
 
 ## 三、查询方法
 
-Pandas查询数据的几种方法
+`Pandas`查询数据的几种方法
 
-1. df.loc( )方法，根据标签值查询
-2. df.iloc( )方法，根据数字位置查询
-3. df.where( )方法
-4. df.query( )方法
+1. `df.loc( )`方法，根据标签值查询
+2. `df.iloc( )`方法，根据数字位置查询
+3. `df.where( )`方法
+4. `df.query( )`方法
 
 > 注意:
 >
@@ -97,5 +97,37 @@ Pandas查询数据的几种方法
 > - 注意观察降维dataFrame>Series>值
 > - df.loc( )既能查询，又能覆盖写入，强烈推荐！
 
-### 0.读取数据
+```python
+# 0.读取数据
+df = pd.read_csv('res/beijing_tianqi_2018.csv')
+df.head()  #读取前几行，默认是前5行
+df.set_index('ymd', inplace=True) # 设定索引为日期，方便按日期筛选
+df.index #后续会学习时间序列，先按字符串处理
+df.head()
+
+# 1.使用单个标签查询
+df.loc['2018-01-03']
+
+# 2.使用值列表查询
+df.loc[['2018-01-03','2018-01-04','2018-01-05'],'bWendu'] #得到Series
+df.loc[['2018-01-03','2018-01-04','2018-01-05'],['bWendu','yWendu']] #得到DataFrame
+
+# 3.使用数值区间进行范围查询（注意：区间左右都包含）
+df.loc['2018-01-03':'2018-01-08', 'bWendu'] # 行index按区间
+df.loc['2018-01-03', 'bWendu':'fengxiang'] # 列index按区间
+df.loc['2018-01-03':'2018-01-08', 'bWendu':'fengxiang'] # 行和列都按区间查询
+
+# 4.使用布尔索引
+df.loc[df['aqi']<30] # 简单条件查询，aqi<30
+df['aqi']<30 # 查看这里的布尔条件
+# 复杂条件查询，最高气温小于30度，最低气温大于15度，晴天，空气质量等级一级
+# 替换掉温度的后缀℃
+df.loc[:, "bWendu"] = df["bWendu"].str.replace("℃", "").astype('int32')
+df.loc[:, "yWendu"] = df["yWendu"].str.replace("℃", "").astype('int32')
+df.loc[(df["bWendu"]<=30) & (df["yWendu"]>=15) & (df["tianqi"]=='晴') & (df["aqiLevel"]==1)]
+
+# 5.调用函数查询
+df.loc[lambda df : (df["bWendu"]<=30) & (df["yWendu"]>=15)] # 直接写lambda表达式
+
+```
 
