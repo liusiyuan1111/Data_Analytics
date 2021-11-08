@@ -39,7 +39,42 @@ df.cov() # 协方差矩阵
 df.corr() # 相关系数矩阵
 df["aqi"].corr(df["bWendu"]) #空气质量和最高温度的相关系数
 
-# 二、新增数据列
+# 二、字符串处理
+# 1.
+df["bWendu"].str
+# 字符串替换函数
+df["bWendu"].str.replace("℃", "")
+# 判断是不是数字
+df["bWendu"].str.isnumeric()
+df["aqi"].str.len() #报错
+# 2.
+condition = df["ymd"].str.startswith("2018-03")
+df[condition].head()
+# 3.
+df["ymd"].str.replace("-", "")
+# 每次调用函数，都返回一个新Series
+df["ymd"].str.replace("-", "").slice(0, 6) #报错
+df["ymd"].str.replace("-", "").str.slice(0, 6)
+# slice就是切片语法，可以直接用
+df["ymd"].str.replace("-", "").str[0:6]
+
+# 三、数据排序
+# 1.Series排序
+df["aqi"].sort_values()
+df["aqi"].sort_values(ascending=False)
+# 2.DataFrame排序
+# 2.1 单列
+df.sort_values(by="aqi")
+df.sort_values(by="aqi", ascending=False)
+# 2.2 多列
+# 按空气质量等级、最高温度排序，默认升序
+df.sort_values(by=["aqiLevel", "bWendu"])
+# 两个字段都是降序
+df.sort_values(by=["aqiLevel", "bWendu"], ascending=False)
+# 分别指定升序和降序
+df.sort_values(by=["aqiLevel", "bWendu"], ascending=[True, False])
+
+# 四、新增数据列
 # 1.直接赋值
 df.loc[:, "wencha"] = df["bWendu"] - df["yWendu"]
 
@@ -71,7 +106,7 @@ df.loc[df["bWendu"]-df["yWendu"]>10, "wencha_type"] = "温差大"
 
 df.loc[df["bWendu"]-df["yWendu"]<=10, "wencha_type"] = "温差正常"
 
-# 三、缺失值处理
+# 五、缺失值处理
 # 1.读取数据
 df = pd.read_excel('res/student_excel.xlsx',skiprows=2)
 # 2.检测空值
