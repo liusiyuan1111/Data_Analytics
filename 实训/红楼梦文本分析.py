@@ -25,7 +25,7 @@ plt.rcParams['font.sans-serif'] = ['SimHei']
 
 #0.读取数据
 honglou_path = 'res/red_UTF82.txt'
-stop_word_path = 'res/baidu_stopwords.txt'
+stop_word_path = 'res/honglou_stopwords.txt'
 
 #读取文本和停用词
 honglou = pd.read_csv(honglou_path, header=None)
@@ -106,8 +106,29 @@ for i in np.arange(row):
     #去除长度为1的词
     cutwords = pd.Series(cutwords)[pd.Series(cutwords).apply(len)>1]
     #去除停用词
-    cutwords = cutwords[~cutwords.isin(stop_word)]
-    honglou_df["Cutword"][i] = cutwords.values
+    cutwords = cutwords[~cutwords.isin(stop_word[0])]
+    honglou_df["Cutword"][i] = cutwords
 print(honglou_df["Cutword"])
 
 # 统计词频
+# 合并每一章的分词
+words = np.concatenate(honglou_df["Cutword"])
+word_df = pd.DataFrame({"Word":words})
+word_df["number"] = 0
+word_df = word_df.groupby(by="Word").agg({"number":np.size}).reset_index()
+word_df.sort_values(by="number",ascending=False,inplace=True)
+
+
+# 绘制高频词汇条形图
+newdata = word_df[word_df["number"]>500]
+plt.figure(figsize=(16,8))
+plt.bar(newdata["Word"],newdata["number"])
+plt.show()
+
+newdata = word_df[word_df["number"]>250]
+plt.figure(figsize=(16,8))
+plt.bar(newdata["Word"],newdata["number"])
+plt.xticks(rotation=90)
+plt.show()
+
+# 统计每一章的高频词
