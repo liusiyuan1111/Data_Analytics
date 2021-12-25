@@ -12,7 +12,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import jieba
-import wordcloud
+from wordcloud import WordCloud
 
 
 plt.rcParams['axes.unicode_minus'] = False
@@ -102,7 +102,7 @@ row,col = honglou_df.shape
 honglou_df["Cutword"] = "Cutword"
 for i in np.arange(row):
     #分词
-    cutwords = list(jieba.cut(honglou_df["Content"][i], cut_all=True))
+    cutwords = list(jieba.cut(honglou_df["Content"][i], cut_all=False))
     #去除长度为1的词
     cutwords = pd.Series(cutwords)[pd.Series(cutwords).apply(len)>1]
     #去除停用词
@@ -132,3 +132,27 @@ plt.xticks(rotation=90)
 plt.show()
 
 # 统计每一章的高频词
+name = honglou_df["Chapter"][0]
+word = honglou_df["Cutword"][0]
+word_df = pd.DataFrame({"Word":word})
+word_df["number"] = 0
+word_df = word_df.groupby(by="Word").agg({"number":np.size}).reset_index()
+word_df.sort_values(by="number",ascending=False,inplace=True)
+newdata = word_df[word_df["number"]>5]
+plt.figure(figsize=(16,8))
+plt.bar(newdata["Word"],newdata["number"])
+plt.show()
+
+
+# 词云
+new_word = ' '.join(words)
+mask = plt.imread("res/d.jfif")
+word_cloud = WordCloud(font_path="/res/simhei.ttf",
+                       margin=5,
+                       width=1800,
+                       height=800,
+                       mask=mask,
+                       background_color="white").generate(new_word)
+plt.imshow(word_cloud)
+plt.axis("off")
+plt.show()
