@@ -11,6 +11,9 @@ Create Date: 2021-11-29
 import matplotlib.pyplot as plt
 import numpy as np
 
+plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
+plt.rcParams['axes.unicode_minus']=False #用来正常显示负号
+
 x = np.arange(10)
 y = np.random.randint(0,10,size=(10,))
 plt.plot(x,y)
@@ -34,7 +37,7 @@ plt.show()
 
 x = np.arange(0,20,2)
 y = x*2
-xticks = ["%d坐标"%i for i in _x]
+xticks = ["%d坐标"%i for i in x]
 plt.xticks(x,xticks) #在x轴上的刻度是0坐标,2坐标...20坐标
 plt.plot(x,y)
 plt.show()
@@ -50,6 +53,7 @@ plt.ylim((-2, 3))
 new_ticks = np.linspace(-1, 2, 5)
 plt.yticks([-2, -1.8, -1, 1.22, 3],[r'$really\ bad$', r'$bad$', r'$normal$', r'$good$', r'$really\ good$'])
 plt.xticks(new_ticks)
+plt.legend(labels=['y1','y2'],loc='best',ncol=2)
 plt.show()
 
 avenger = [17974.4,50918.4,30033.0,40329.1,52330.2,19833.3,11902.0,24322.6,47521.8,32262.0,22841.9,12938.7,4835.1,3118.1,2570.9,2267.9,1902.8,2548.9,5046.6,3600.8]
@@ -58,6 +62,10 @@ plt.plot(avenger,marker="o")
 plt.xticks(range(20),["第%d天"%x for x in range(1,21)])
 plt.xlabel("天数")
 plt.ylabel("票房数(万)")
+
+for x in range(20):
+    y = avenger[x]
+    plt.annotate(y, xy=(x,y), xytext=(x-0.5, y + 1000))
 plt.grid()
 plt.savefig("./abc.png")
 plt.show()
@@ -71,6 +79,17 @@ plt.show()
 x = np.linspace(0,20)
 plt.plot(x,np.sin(x))
 plt.plot(x,np.cos(x))
+plt.show()
+
+
+
+x = np.arange(0.0, 5.0, 0.01)
+y = np.cos(2*np.pi*x)
+plt.plot(x, y,linewidth=2)
+for x in range(6):
+    y = np.cos(2 * np.pi * x)
+    plt.annotate(y, xy=(x,y), xytext=(x-0.05, y+0.1))
+plt.ylim(-2, 2)
 plt.show()
 
 values = np.arange(20)
