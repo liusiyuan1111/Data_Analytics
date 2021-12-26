@@ -14,14 +14,8 @@ import matplotlib.pyplot as plt
 import jieba
 from wordcloud import WordCloud
 
-
 plt.rcParams['axes.unicode_minus'] = False
 plt.rcParams['font.sans-serif'] = ['SimHei']
-
-
-
-# 注意编码
-
 
 #0.读取数据
 honglou_path = 'res/red_UTF82.txt'
