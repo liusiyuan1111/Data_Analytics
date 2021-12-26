@@ -32,7 +32,7 @@ honglou = pd.read_csv(honglou_path, header=None)
 stop_word = pd.read_csv(stop_word_path, header=None)
 
 print(honglou)
-
+print(stop_word)
 #1.数据预处理
 #检测是否有空行
 np.sum(pd.isnull(honglou))
@@ -40,6 +40,7 @@ np.sum(pd.isnull(honglou))
 #删除卷
 index_juan = honglou[0].str.contains("^第+.+卷")
 honglou.drop(index=(honglou.loc[index_juan]),axis=0,inplace=True)
+honglou.reset_index()
 
 #提取每章标题
 index_hui = honglou[0].str.match("^第+.+回")
